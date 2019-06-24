@@ -1,0 +1,356 @@
+# 新增人员
+POST {{url}}/person/save
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"id": 1,"name": "小马哥"}
+
+###
+
+GET {{url}}/person/find/all
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+###
+# 接收WMS的包裹信息
+POST {{url}}/orderInfoApi/omsAcceptWaybillPackageInfoList
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"orderId":6640706900060017,"stockoutFlag":1,"orderPackageDTOList":[{
+                                                       "packageId":2128531,
+                                                       "packageCode":"D180913000007Z001",
+                                                       "companyId":217,
+                                                       "orderId":"6640706900060017",
+                                                       "wmsOrderId":"2340853",
+                                                       "distributionId":4340517,
+                                                       "distributionBatch":null,
+                                                       "warehouseCompanyId":42,
+                                                       "belongWarehouseCompanyId":395,
+                                                       "wmsSalesmanId":null,
+                                                       "waybillId":null,
+                                                       "trackingNumber":"PTMR20180629010389",
+                                                       "carrierName":"杨晓娟运输公司",
+                                                       "csPhone":null,
+                                                       "storageFormat":1,
+                                                       "boxNum":1,
+                                                       "vehicleType":"面包车",
+                                                       "licensePlateNumber":"京R9D5R6",
+                                                       "driverId":298,
+                                                       "driverPhone":"13212344321",
+                                                       "driverName":"屈义",
+                                                       "pickupTime":1536836400000,
+                                                       "createUser":"system",
+                                                       "createTime":1536826668000,
+                                                       "updateUser":null,
+                                                       "modifiedTime":1536826760000,
+                                                       "storageFormatName":"整箱",
+                                                       "effective":1,
+                                                       "orderPackageDetailDTOS":[
+                                                           {
+                                                               "packageId":2128531,
+                                                               "packageCode":"D180913000007Z001",
+                                                               "packageDetailId":2128960,
+                                                               "companyId":217,
+                                                               "warehouseId":720006,
+                                                               "waybillId":null,
+                                                               "orderId":"6640706900060017",
+                                                               "detailId":7299067100010017,
+                                                               "goodsId":12346654,
+                                                               "goodsCode":"lty119",
+                                                               "goodsName":"黄元帅苹果 盒装*苹果",
+                                                               "specification":"GE522",
+                                                               "storageSpecification":1,
+                                                               "batchNo":"-",
+                                                               "price":null,
+                                                               "rate":null,
+                                                               "weight":213,
+                                                               "volume":342,
+                                                               "unit":"袋",
+                                                               "unitId":92,
+                                                               "amount":1,
+                                                               "mainUnit":"袋",
+                                                               "mainUnitNum":1,
+                                                               "qualityPeriodFlag":1,
+                                                               "expirationStartDate":1546272000000,
+                                                               "expirationEndDate":1548864000000,
+                                                               "createTime":1536826668000,
+                                                               "modifiedTime":null,
+                                                               "storageFormatName":"整箱"
+                                                           },
+                                                           {
+                                                              "packageId":2128531,
+                                                              "packageCode":"D180913000007Z001",
+                                                              "packageDetailId":2124460,
+                                                              "companyId":217,
+                                                              "warehouseId":720006,
+                                                              "waybillId":null,
+                                                              "orderId":"6640706900060017",
+                                                              "detailId":7299067100010017,
+                                                              "goodsId":12346313,
+                                                              "goodsCode":"123456789077",
+                                                              "goodsName":"粉色水杯",
+                                                              "specification":"GE522",
+                                                              "storageSpecification":1,
+                                                              "batchNo":"-",
+                                                              "price":null,
+                                                              "rate":null,
+                                                              "weight":213,
+                                                              "volume":342,
+                                                              "unit":"个",
+                                                              "unitId":80,
+                                                              "amount":1,
+                                                              "mainUnit":"个",
+                                                              "mainUnitNum":2,
+                                                              "qualityPeriodFlag":1,
+                                                              "expirationStartDate":1546272000000,
+                                                              "expirationEndDate":1548864000000,
+                                                              "createTime":1536826668000,
+                                                              "modifiedTime":null,
+                                                              "storageFormatName":"整箱"
+                                                          }
+                                                       ]
+                                                   }]}
+
+###
+
+POST /omsGoodsQuery/omsGoodsQuery HTTP/1.1
+Host: {{url}}
+Content-Type: application/json
+Cache-Control: no-cache
+
+{"companyId":217}
+
+###
+#同步包裹信息给TMSList
+GET {{url}}/orderInfoTaskApi/orderPackageTransmitTMS?id=7332896100040017
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+###
+#订单签收
+POST {{url}}/orderInfoApi/signOrder
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "externalOrderId": "6314919000010017",
+  "externalOrderNo": "6314919000010017",
+  "changeDeliveryFlag": "0",
+  "orderSignUrl": null,
+  "warehouseId": 720006,
+  "sourceSystem": 1,
+  "pickupTime": null,
+  "signStatus": 1,
+  "payStatus": 1,
+  "signUserName": "好哈哈",
+  "signTime": 1542355355459,
+  "payChannel": 1,
+  "realAmount": 1360.000000,
+  "deliveryCompanyDeptId": 392,
+  "deliveryCompanyDeptName": "杨晓娟运输公司",
+  "deliveryCompanySalesman": "系统",
+  "deliveryCompanySalesmanPhone": "15011345279",
+  "salesmanId": null,
+  "depositPayType": 1
+}
+
+###
+#获取运力信息
+GET {{url}}/orderInfoTaskApi/receiveCapacity?orderInfo={
+                                                         "orderId": 7029323800027917,
+                                                         "orderType": 1,
+                                                         "trackingNumber": "PTMR20181116028026",
+                                                         "transitLineId": 60014,
+                                                         "transitLine": "广州线",
+                                                         "carrierId": 7222,
+                                                         "globalCarrierId": 7222,
+                                                         "carrierName": "广州凯骋物流有限公司",
+                                                         "shipmentsPointId": 5074,
+                                                         "shipmentsAddress": "凯骋物流（金盆）",
+                                                         "carriage": 16400.00,
+                                                         "departTime": "2018-11-16 17:00:00",
+                                                         "waybillId": 2183945
+                                                       }
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+###
+#其他系统交互订单状态流转
+POST {{url}}/orderInfoApi/OrderStatueFlow
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "orderId": 6971257800010017,
+  "trackingStatue": 3,
+  "salesmanId": null,
+  "systemDsc": null,
+  "orderDetailLackDtos": null
+}
+
+###
+#查询回收品有没有关联的商品没有取消的订单
+POST {{url}}/orderInfoApi/selectRecycleProductOrderNotCancel
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "companyId": 217,
+  "goodsId": {"111":[12346267]},
+  "recycledProdSkuId": 12348530,
+  "unfinished": true
+}
+
+###
+#查询回收品有没有关联的商品没有取消的销退单
+POST {{url}}/salesReturnApi/selectRecycleProductSalesReturnNotCancel
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "companyId": 217,
+  "goodsId": {"111":[12346267]},
+  "recycledProdSkuId": 12348530,
+  "unfinished": true
+}
+
+###
+#Wms修改占用批次
+POST {{url}}/orderInfoApi/updateOrderDetailBatchFromWms
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+[
+  {
+    "goodsId": 12346481,
+    "orderId": 7938015900010017,
+    "expirationStartDate": 1527436800000,
+    "expirationEndDate": 1558972800000,
+    "qty": 60,
+    "warehouseId": 720006,
+    "companyId": 217
+  }
+]
+
+###
+#接收TMS的派车信息下传WMS
+POST {{url}}/orderInfoApi/saveFromSCMNew
+Accept: application/json
+Content-Type: application/json
+Cache-Control: no-cache
+
+{
+  "id": null,
+  "handoverNo": null,
+  "status": null,
+  "externalHandoverId": 4371501,
+  "externalHandoverNo": "PC20181128004858",
+  "warehouseId": 720006,
+  "warehouseName": null,
+  "warehouseCode": null,
+  "warehouseCompanyId": null,
+  "warehouseCompanyName": null,
+  "deliveryType": null,
+  "carrierId": null,
+  "carrierOrgId": 34,
+  "carrierCustomerId": 392,
+  "carrierName": "",
+  "sendoutInternetId": null,
+  "sendoutInternetName": null,
+  "routeId": null,
+  "routeName": null,
+  "carType": "3",
+  "carNo": "冀J12345",
+  "driverId": 816,
+  "driverName": "果果",
+  "driverTel": "13269658773",
+  "takeMan": null,
+  "takeManTel": null,
+  "carBatch": "PC20181128004858",
+  "startUser": null,
+  "startUserName": null,
+  "startTime": null,
+  "confirmUser": null,
+  "confirmUserName": null,
+  "confirmTime": null,
+  "createSource": null,
+  "createUser": null,
+  "createUserName": null,
+  "createTime": null,
+  "updateUser": null,
+  "updateUserName": null,
+  "updateTime": null,
+  "boxCount": null,
+  "totalWeight": null,
+  "totalCubage": null,
+  "detailList": [
+    {
+      "id": null,
+      "handoverId": null,
+      "handoverNo": null,
+      "orderId": 6080508900010017,
+      "orderNo": null,
+      "externalOrderId": "6080508900010017",
+      "externalOrderNo": null,
+      "platformOrderId": null,
+      "platformOrderNo": null,
+      "carPolicy": 2,
+      "warehouseId": null,
+      "warehouseName": null,
+      "warehouseCode": null,
+      "warehouseCompanyId": null,
+      "warehouseCompanyName": null,
+      "ownerId": null,
+      "ownerName": null,
+      "deliverySequence": 1,
+      "boxCount": null,
+      "weight": null,
+      "weightUnit": null,
+      "cubage": null,
+      "cubageUnit": null,
+      "status": null,
+      "waveId": 517296557873537024,
+      "waveNo": "B181128000001",
+      "waybillNo": "PTMR20181128015618",
+      "statusDesc": null,
+      "carNo": null,
+      "operationType": 1
+    }
+  ],
+  "loadType": null,
+  "loader": null,
+  "startLoadTime": null,
+  "endLoadTime": null,
+  "consignee": null,
+  "printUser": null,
+  "printUserName": null,
+  "printCount": null,
+  "printTime": null,
+  "printStatus": null,
+  "departTime": null,
+  "remark": null,
+  "orderCount": null,
+  "releaseStatus": 200,
+  "statusDesc": null,
+  "deliveryTypeDesc": null,
+  "createSourceDesc": null,
+  "isOnlyStatusChange": 2
+}
+
+###
+#批次批量下发WMS订单信息
+GET {{url}}/tmsOrderBatchServiceTaskApi/tmsOrderBatchServiceTask?tmsOrderBatchId=7954234200010001
+
+###
+
